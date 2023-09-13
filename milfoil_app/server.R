@@ -70,8 +70,9 @@ observeEvent(list(input$Filter_States,
   } else {
     df_to_filter = MSU_db_markers
   }
-  
-  
+ 
+   
+#TEXT THAT JUST LIVES IN THE DIV BELOW THE FILTERS DIV  
   output$general_info = renderText({
     HTML("<h2 id = 'info_header'>Strain Nomenclature</h2>
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
@@ -124,11 +125,7 @@ observeEvent(list(input$Filter_States,
     strains_to_filter_by = as.character(strain)
   }
   
- # if(length(strains_to_filter_by) > 0) { strains_to_filter_by = strains_to_filter_by[1] }
 
-  
-
- # browser()
   
 #THIS PART IS DOING THE FILTERING  
   Our_reactives$current_df = df_to_filter %>%
@@ -207,6 +204,7 @@ observeEvent(list(input$Filter_States, input$Filter_Counties, input$Filter_Lakes
   
 })
 
+#browser()
 
 #THIS IS WATCHING TO SEE IF THE REACTIVE DF HAS CHANGED BASED ON FILTERS THAT HAVE CHANGED AND IF SO IT FLYS TO THE CURRENT SELECTIONS
 observe({
@@ -266,7 +264,7 @@ observeEvent(Our_reactives$current_df, priority = 2, {
 observeEvent(list(session$initialized, input$info_button),{
   show_alert(title = "How To Use This Map", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
               text = HTML("
-<p> On this web page, you will find a map of the lower 48 states in the US at the center. To the left of the map, a set of filters is provided to help customize the data displayed. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
+<p> On this web page, you will find a map of the lower 48 states in the US at the center. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
 
 <p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. Next to each filter there is an information button that can tell you how to use the respective filter. </p>
 
@@ -317,9 +315,18 @@ output$general_info = renderText(({
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
 <p><span id=arrowtag>&#x2794 </span>Additionally, ‘MISGP’ or ‘MYR’ in the ID represents the original database this sample is from, primarily for in-house purposes, but it is included for cross referencing convenience. </p>
 <p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>
+<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include a combination of northern watermilfoil samples identified using our the same strain nomenclature mentioned above. Some strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>
 ")
 }))})
 
+
+#LIST OF LAKES BUTTON
+observeEvent(input$lake_button, {
+  lake_list = sort(unique(Our_reactives$current_df$Lake_WBI))
+  lake_list2 = paste(lake_list, collapse = ",<br>")
+  show_alert(title = "How To Use This Map", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
+             text = HTML(lake_list2))
+})
 
 
 
@@ -335,26 +342,25 @@ observeEvent(input$reset_button,{
 
 
 #putting logos in
-output$logos = renderImage({
+output$combined_logos = renderImage({
   list(src = "www/combined logos.png")
-},
-deleteFile = F)
+}, deleteFile = F)
 
 
 output$milfoilimg1 = renderImage({
-  list(src = "www/transparent milfoil.png")
+  list(src = "www/milf_art.png")
 }, deleteFile = F)
 
 output$milfoilimg2 = renderImage({
-  list(src = "www/transparent milfoil.png")
+  list(src = "www/milf_art.png")
 }, deleteFile = F)
 
 output$milfoilimg3 = renderImage({
-  list(src = "www/transparent milfoil.png")
+  list(src = "www/milf_art.png")
 }, deleteFile = F)
 
 output$milfoilimg4 = renderImage({
-  list(src = "www/transparent milfoil.png")
+  list(src = "www/milf_art.png")
 }, deleteFile = F)
 
 

@@ -10,9 +10,14 @@ library(shinyWidgets)
 library(readr)
 library(shinyBS)
 
-
 #install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
 #install.packages("USAboundaries", repos = "https://ropensci.r-universe.dev", type = "source")
+
+options(repos = c(
+       ropensci = "https://ropensci.r-universe.dev",
+       cran = "https://cran.rstudio.com/"
+   ))
+options("repos")
 
 
 # Loading in the database -------------------------------------------------
@@ -51,27 +56,12 @@ MSU_database = MSU_database %>%
                                   "; Fluridone: ", 
                                   str_to_title(Fluridone_response), 
                                   ")" ))
-
-
+  
 
 
 #A FOR LOOP CREATING AND POPULATING THE RESISTANT AND SENSITIVE BUTTONS
 
 for(i in 1:nrow(MSU_database)) {
-  
-  MSU_database$strain_response[i] = gsub(pattern = "2,4-D: Sensitive",
-                                         replacement = paste0("2,4-D: ",
-                                                              "<button class = 'response-button' data-id = '",
-                                                              MSU_database$Microsatellite_strain[i], "-2,4-D", 
-                                                              "'><span class = 'color_green'>Sensitive</span></button>"), 
-                                         x = MSU_database$strain_response[i])
-  
-  MSU_database$strain_response[i] = gsub(pattern = "2,4-D: Resistant",
-                                         replacement = paste0("2,4-D: ",
-                                                              "<button class = 'response-button' data-id = '",
-                                                              MSU_database$Microsatellite_strain[i], "-2,4-D",
-                                                              "'><span class = 'color_pink'>Resistant</span></button>"), 
-                                         x = MSU_database$strain_response[i])
   
   MSU_database$strain_response[i] = gsub(pattern = "Fluridone: Sensitive",
                                          replacement = paste0("Fluridone: ",
@@ -87,39 +77,48 @@ for(i in 1:nrow(MSU_database)) {
                                                               "'><span class = 'color_pink'>Resistant</span></button>"), 
                                          x = MSU_database$strain_response[i])
   
+  MSU_database$strain_response[i] = gsub(pattern = "2,4-D: Sensitive",
+                                         replacement = paste0("2,4-D: ",
+                                                              "<button class = 'response-button' data-id = '",
+                                                              MSU_database$Microsatellite_strain[i], "-2,4-D", 
+                                                              "'><span class = 'color_green'>Sensitive</span></button>"), 
+                                         x = MSU_database$strain_response[i])
+  
+  MSU_database$strain_response[i] = gsub(pattern = "2,4-D: Resistant",
+                                         replacement = paste0("2,4-D: ",
+                                                              "<button class = 'response-button' data-id = '",
+                                                              MSU_database$Microsatellite_strain[i], "-2,4-D",
+                                                              "'><span class = 'color_pink'>Resistant</span></button>"), 
+                                         x = MSU_database$strain_response[i])
+  
+  
 }
+
 
 
 
 #CREATING THE MSU_DB_MARKERS DF
 MSU_db_markers = MSU_database %>%
   filter(Microsatellite_strain != "FAIL") %>%
-  group_by(Lake) %>%
-  summarize(Lake_sub_basin = first(Lake_sub_basin),
+  group_by(Lake_lat, Lake_long) %>%
+  summarize(Lake = first(Lake),
+            Lake_sub_basin = first(Lake_sub_basin),
             Waterbody_ID = first(Waterbody_ID),
             State = first(State),
             County = first(County),
             Taxon = first(Taxon),
-            Lake_lat = first(Lake_lat),
-            Lake_long = first(Lake_long),
             Strains = paste0(unique(strain_response), collapse = ",<br>")) %>% 
   ungroup()
+
 
 
 #LOADING IN THE HERBICIDE RESPONSE TABLE
 herb_table <- read.csv("Herbicide_response_table.csv")
 
 #CREATING A STATE_CODES OBJECT THAT HAS FULL STATE NAMES AND THEIR ABBREVIATIONS
-state_codes <- c("All" = "All", "Alabama" = "AL", "Arizona" = "AZ", "Arkansas" = "AR", "California" = "CA",
-                 "Colorado" = "CO", "Connecticut" = "CT", "Delaware" = "DE", "Florida" = "FL", "Georgia" = "GA",
-                 "Idaho" = "ID", "Illinois" = "IL", "Indiana" = "IN", "Iowa" = "IA", "Kansas" = "KS", "Maine" = "ME",
-                 "Maryland" = "MD", "Massachusetts" = "MA", "Michigan" = "MI", "Minnesota" = "MN", 
-                 "Mississippi" = "MS", "Montana" = "MT", "Nebraska" = "NE", "Nevada" = "NV", "New Hampshire" = "NH",
-                 "New Jersy" = "NJ", "New Mexico" = "NM", "New York" = "NY", "North Carolina" = "NC",
-                 "North Dakota" = "ND", "Oregon" = "OR", "Pennsylvania" = "PA", "Rhode Island" = "RI", 
-                 "South Carolina" = "SC", "South Dakota" = "SD", "Tennessee" = "TN", "Texas" = "TX", "Utah" = "UT",
-                 "Vermont" = "VT", "Virginia" = "VA", "Washington" = "WA", "West Virginia" = "WV", 
-                 "Wisconsin" = "WI", "Wyoming" = "WY")
+state_codes <- c("All" = "All", "Illinois" = "IL", "Indiana" = "IN", "Iowa" = "IA", "Michigan" = "MI", 
+                 "Minnesota" = "MN", "Nebraska" = "NE", "New York" = "NY", "Ohio" = "OH",
+                 "Pennsylvania" = "PA", "South Carolina" = "SC", "Vermont" = "VT", "Wisconsin" = "WI")
 
 
 #SUBSETS THE MAP TO JUST SHOW THE LOWER 48 STATES
@@ -143,15 +142,20 @@ bounds <- unname(st_bbox(MSU_db_markersSF))
 # Buttons and pop ups -----------------------------------------------------
 
 
+#COMBINING LAKE AND WBID INTO ONE ROW
+MSU_db_markers$Waterbody_ID[is.na(MSU_db_markers$Waterbody_ID)] = ""
 
 MSU_db_markers$Lake_WBI = unlist(lapply(seq(1, nrow(MSU_db_markers)), function (x){
-  paste0(MSU_db_markers$Lake[x], 
+  paste0(MSU_db_markers$Lake[x],
          " (",
          MSU_db_markers$Waterbody_ID[x],
          ")")
 }))
 
-
+#GETTING RID OF (NA) IF THERE IS NOT WBID
+for(r in 1:nrow(MSU_db_markers)) {
+  MSU_db_markers$Lake_WBI[r] = gsub(pattern = "()", replacement = "", MSU_db_markers$Lake_WBI[r], fixed = TRUE)
+}
 
 #THIS FUNCTION ADDS LABELS TO EACH POINT WHEN CLICKED ON
 
@@ -170,6 +174,7 @@ MSU_db_markers$maplabels = lapply(seq(1, nrow(MSU_db_markers)),
 #CREATING THE MSU_DB_MARKERS_SB DF
 MSU_db_markers_sb = MSU_database %>%
   filter(Microsatellite_strain != "FAIL") %>%
+  filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
   group_by(Lake, Lake_sub_basin) %>%
   summarize(Lake_sub_basin = first(Lake_sub_basin),
             Waterbody_ID = first(Waterbody_ID),
@@ -195,12 +200,19 @@ bounds_sb <- unname(st_bbox(MSU_db_markersSF_sb))
 
 
 #MAKING LAKE AND WBID INTO THE SAME COLUMN
+MSU_db_markers_sb$Waterbody_ID[is.na(MSU_db_markers_sb$Waterbody_ID)] = ""
+
 MSU_db_markers_sb$Lake_WBI = unlist(lapply(seq(1, nrow(MSU_db_markers_sb)), function (x){
-  paste0(MSU_db_markers_sb$Lake[x], 
+  paste0(MSU_db_markers_sb$Lake[x],
          " (",
          MSU_db_markers_sb$Waterbody_ID[x],
          ")")
 }))
+
+#GETTING RID OF (NA) IF THERE IS NOT WBID
+for(r in 1:nrow(MSU_db_markers_sb)) {
+  MSU_db_markers_sb$Lake_WBI[r] = gsub(pattern = "()", replacement = "", MSU_db_markers_sb$Lake_WBI[r], fixed = TRUE)
+}
 
 
 
@@ -212,6 +224,9 @@ MSU_db_markers_sb$maplabels = lapply(seq(1, nrow(MSU_db_markers_sb)),
                                            "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>',
                                            "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers_sb[i, "Strains"], '<br>'
                                     )
+                                   if (!is.na(MSU_db_markers_sb[i, "Lake_sub_basin"])) {
+                                     paste0("<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>')
+                                   } 
                                   })
 
 

@@ -1,0 +1,11 @@
+name: milfoil_app
+title: milfoil_app
+username:
+account: thumlab-msu-watermilfoilapp
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9688332
+bundleId: 7643921
+url: https://thumlab-msu-watermilfoilapp.shinyapps.io/milfoil_app/
+asMultiple: FALSE
+asStatic: FALSE

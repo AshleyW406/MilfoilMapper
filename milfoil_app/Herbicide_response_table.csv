@@ -1,15 +1,77 @@
 ﻿Microsat_ID,Fluridone_response,X2_4D_response
-E_MISGP_1802,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-E_MISGP_380,"Herbicide assays performed in the Thum lab for this strain, have shown this strain is fluridone resistant and does not respond well when treated with fluridone. We recommend not using fluridone if this strain is present in your lake. Please see Chorak and Thum 2020, and Berger et al. 2012.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-E_MISGP_734,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MISGP_231,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MISGP_187,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MISGP_249,"Herbicide assays performed in the Thum lab for this strain, have shown this strain is fluridone resistant and does not respond well when treated with fluridone. We recommend not using fluridone if this strain is present in your lake. Please see Chorak and Thum 2020, and Berger et al 2012.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MISGP_464,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.",NA
-H_MISGP_518,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MYR_10199,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MYR_4866,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MYR_5016,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be resistant to 2,4-D. We recommend not using 2,4-D if this strain is present in your lake. When available, please see Hoff et al. in revision."
-H_MYR_7905,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.",NA
-H_MYR_1799,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.","Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake."
-H_MYR_11345,"Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.",NA
+E_MISGP_1802,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_E_MISGP_1802>E_MISGP_1802</h3></P>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = E_MISGP_1802>E_MISGP_1802</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+E_MISGP_380,"<h2>Fluridone Response<h2>
+<p><h3 id = Flur_E_MISGP_380>E_MISGP_380</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, have shown this strain is fluridone resistant and does not respond well when treated with fluridone. We recommend not using fluridone if this strain is present in your lake. Please see <a href = 'https://doi.org/10.1017/inp.2020.34'>Chorak and Thum 2020.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = E_MISGP_380>E_MISGP_380</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+E_MISGP_734,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_E_MISGP_734>E_MISGP_734</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = E_MISGP_734>E_MISGP_734</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+H_MISGP_187,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_187>H_MISGP_187</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_187>H_MISGP_187</h3><p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+H_MISGP_249,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_249>H_MISGP_249</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, have shown this strain is fluridone resistant and does not respond well when treated with fluridone. We recommend not using fluridone if this strain is present in your lake. Please see <a href = 'https://doi.org/10.1017/inp.2020.34'>Chorak and Thum 2020 </a> and <a href = 'https://doi.org/10.1614/WS-D-14-00085.1'>Berger et al. 2012</a>.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_249>H_MISGP_249</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+H_MISGP_464,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_464>H_MISGP_464</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.<p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_464>H_MISGP_464</h3></P>
+<p>At this time, the 2,4-D herbicide response for this strain is unknown.</p>"
+H_MISGP_518,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_518>H_MISGP_518</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_518>H_MISGP_518</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+H_MYR_10199,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MYR_10199>H_MYR_10199</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MYR_10199>H_MYR_10199</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"
+H_MYR_4866,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MYR_4866>H_MYR_4866</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MYR_4866>H_MYR_4866</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.<p>"
+H_MYR_5016,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MYR_5016>H_MYR_5016</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MYR_5016>H_MYR_5016</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be resistant to 2,4-D. We recommend not using 2,4-D if this strain is present in your lake. Hoff et al. unpublished data.<p>"
+H_MYR_7905,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MYR_7905>H_MYR_7905</h3></p>
+<p><h3>H_MYR_7905</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.<p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MYR_7905>H_MYR_7905</h3></p>
+<p>At this time, the 2,4-D herbicide response for this strain is unknown.</p>"
+H_MYR_11345,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MYR_11345>H_MYR_11345</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MYR_11345>H_MYR_11345</h3></p>
+<p>At this time, the 2,4-D herbicide response for this strain is unknown.</p>"
+E_MISGP_1863,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_E_MISGP_1863>E_MISGP_1863</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = E_MISGP_1863>E_MISGP_1863</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.<p>"
+H_MISGP_1799,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_1799>H_MISGP_1799</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_1799>H_MISGP_1799</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.<p>"
+H_MISGP_231,"<h2>Fluridone Response</h2>
+<p><h3 id = Flur_H_MISGP_231>H_MISGP_231</h3></p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to fluridone. However, it is always good to conintue to monitor the efficacy of treatment in your lake.</p>","<h2>2,4-D Response</h2>
+<p><h3 id = H_MISGP_231>H_MISGP_231</h3><p>
+<p>Herbicide assays performed in the Thum lab for this strain, show the strain to be sensitive in response to 2,4-D. However, it is always good to continue to monitor the efficacy of treatment in your lake.</p>"

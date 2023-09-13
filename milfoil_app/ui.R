@@ -23,40 +23,24 @@ ui <-   div(id = "entirepage",
   });
   '
   ),
-  
+
+tags$head(
+  tags$script('
+      // Check if the browser is Safari
+      if (navigator.vendor && navigator.vendor.includes("Apple")) {
+        document.documentElement.classList.add("safari");
+      }
+    ')
+),
   
 #LETS US PERFORM JAVASCRIPT IN SHINY
 useShinyjs(),
  
-# 
-# #We use a nice waiter to show while the App preloads, with a custom spinner, text, and logo, plus styling and a fadeout.
-# useWaiter(), 
-# waiter_preloader(html = tagList(
-#   spin_loaders(6), br(), br(),
-#   HTML("<em>Welcome to PI Charter! Please wait while we chart your course...</em>"), br(), br(),
-#   img(src = "preload.png")),
-#   color = "#7a0019",
-#   fadeout = 500,
-# ), 
-
-#use waiter call
-#using a full page waiter that pops up while page is loading and disappearing
-#  waiterPreloader(html = tagList(
-#    spin_loaders(6),
-#    br(), #line break
-#    br(),
-#    HTML("I'm thinking"),
-#    br(),
-#    br(),
-#    color = "#51C0B6",
-#    fadeout = 500
-#  )),
-
   
 #DIVIDE THIS PAGE LEVEL DIV INTO 2 ROWS
 
   
-    div(id = "toprow",
+    div(id = "toprow", class= "safari-divs",
         
         div(id = "topleftbuffer",
             
@@ -72,7 +56,7 @@ useShinyjs(),
              ),
             div(id="logos",
                 
-                imageOutput("logos")
+                imageOutput("combined_logos")
                 
                 )
             
@@ -96,7 +80,6 @@ useShinyjs(),
                 
                 selectInput("Filter_States", #inputID argument
                             div("Pick A State"), #label argument
-                            #making our little info button next to the filter
                             choices = state_codes,
                             selectize = TRUE,
                             multiple = TRUE,
@@ -108,7 +91,7 @@ useShinyjs(),
                             multiple = TRUE,
                             selected = c("All" = "All")),
                 
-                hidden(selectInput("Filter_LakeS",
+                hidden(selectInput("Filter_Lakes",
                                    div("Pick A Lake"),
                                    choices = c("All" = "All"),
                                    multiple = TRUE,
@@ -131,6 +114,12 @@ useShinyjs(),
                             choices = c("All" = "All", sort(unique(MSU_database$Microsatellite_strain))),
                             multiple = TRUE,
                             selected = c("All" = "All")),
+               
+                #LIST OF LAKES
+                div(id="lakelistbutton",
+                    
+                    actionButton("lake_button",
+                                 "List of Lakes")),
                 
                 #CLEAR ALL FILTER BUTTONS     
                 div(id="floatbutton", 
@@ -139,14 +128,14 @@ useShinyjs(),
                              "Clear Filters")
                   )
                 ),
-            
+            #GENERAL INFO DIV WHERE NOMENCLATURE LIVES AND HERBICIDE RESPONSE POPS UP
             div(id = "info",
                 
                 htmlOutput("general_info"),
             
             )
             ),
-        
+        #MAP DIV
         div(id = "map",
             
             leafletOutput("milfoil_map", height = "96%")
@@ -162,7 +151,7 @@ useShinyjs(),
             imageOutput("milfoilimg3")
             
             ),
-        
+        #FOOTER DIV
         div(id = "footer",
             
             HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a>.<br>The data on this website was last updated 7/1/2023.</p>")

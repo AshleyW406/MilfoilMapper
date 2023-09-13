@@ -40,6 +40,12 @@ div#toprow {
   display: flex;
 }
 
+.safari .safari-divs {
+  min-height: 15%;
+  max-height: 15%;
+  height: 15%;
+}
+
 div#topleftbuffer, div#toprightbuffer {
   min-height: 100%;
   max-height: 100%;
@@ -121,6 +127,16 @@ div#logos {
   justify-content: center;
 }
 
+div#combined_logos {
+  display: flex;
+  justify-content: center;
+}
+
+div#combined_logos>img {
+  max-height: 81px;
+  max-width: 300px;
+}
+
 div#middlerow {
   min-height: 80%;
   max-height: 80%;
@@ -140,16 +156,127 @@ div#filtersandinfo {
   max-height: 100%;
 }
 
+/*putting colors on all of the genotype headers in the herbicide response div */
+h3#Flur_H_MISGP_249 {
+  color:#B51963 ;
+}
+
+h3#H_MISGP_249 {
+  color: #5BA300 ;
+}
+
+h3#Flur_E_MISGP_1802 {
+  color:#5BA300 ;
+}
+
+h3#E_MISGP_1802 {
+  color:#5BA300 ;
+}
+
+h3#Flur_E_MISGP_380 {
+  color:#B51963 ;
+}
+
+h3#E_MISGP_380 {
+  color:#5BA300 ;
+}
+
+h3#Flur_E_MISGP_734 {
+  color:#5BA300 ;
+}
+
+h3#E_MISGP_734 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MISGP_187 {
+  color:#5BA300 ;
+}
+h3#H_MISGP_187 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MISGP_464 {
+  color:#5BA300 ;
+}
+
+
+h3#Flur_H_MISGP_518 {
+  color:#5BA300 ;
+}
+
+h3#H_MISGP_518 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MYR_1099 {
+  color:#5BA300 ;
+}
+
+h3#H_MYR_1099 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MYR_4866 {
+  color:#5BA300 ;
+}
+
+h3#H_MYR_4866 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MYR_5016 {
+  color:#5BA300 ;
+}
+
+h3#H_MYR_5016 {
+  color:#B51963 ;
+}
+
+h3#Flur_H_MYR_7905 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MYR_11345 {
+  color:#5BA300 ;
+}
+
+h3#Flur_E_MISGP_1863 {
+  color:#5BA300 ;
+}
+
+h3#E_MISGP_1863 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MISGP_1799 {
+  color:#5BA300 ;
+}
+
+h3#H_MISGP_1799 {
+  color:#5BA300 ;
+}
+
+h3#Flur_H_MISGP_231 {
+  color:#5BA300 ;
+}
+
+h3#H_MISGP_231{
+  color:#5BA300 ;
+}
+
+
 div#map {
   width: 64%;
   min-width: 64%;
   max-width: 64%;
-  height: 92%;
-  min-height: 92%;
-  max-height: 92%;
+  height: 90%;
+  min-height: 90%;
+  max-height: 90%;
+  margin: auto;
   /*margin: 0% 2%;*/
   /*border: 6px double #555D80; */
-  padding: 10px;
+  /*padding: 10px;*/
 }
 
 div.leaflet {
@@ -175,6 +302,7 @@ span.color_green {
   color: #5BA300;
   font-weight: bold;
 }
+
 
 span.color_pink {
   color: #B51963;
@@ -222,6 +350,17 @@ button.shiny-bound-input:active {
   background-color: #aaa;
 }
 
+div#lakelistbutton {
+  position: relative;
+  margin-top: 65px;
+}
+
+
+button#lake_button {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
 
 div#floatbutton {
   position: relative;
@@ -293,18 +432,31 @@ div#milfoilimg4 {
   z-index: -10;
 }
 
-div#milfoilimg1, 
+div#milfoilimg1 {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
 div#milfoilimg3 {
   display: flex;
   align-items: center;
   justify-content: left;
 }
 
-div#milfoilimg2, 
+div#milfoilimg2 {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  transform: scaleX(-1);
+}
+
+
 div#milfoilimg4 {
   display: flex;
   align-items: center;
   justify-content: right;
+  transform: scaleX(-1)
 }
 
 div#milfoilimg1 img,
