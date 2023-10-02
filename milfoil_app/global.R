@@ -13,6 +13,7 @@ library(shinyBS)
 #install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
 #install.packages("USAboundaries", repos = "https://ropensci.r-universe.dev", type = "source")
 
+#make sure you run these lines of code before you try to publish the app (otherwise it won't work)
 options(repos = c(
        ropensci = "https://ropensci.r-universe.dev",
        cran = "https://cran.rstudio.com/"
@@ -23,8 +24,8 @@ options("repos")
 # Loading in the database -------------------------------------------------
 
 
-MSU_database <- read.csv("Final_2023_MSU_Database_ALW.csv")
-MSU_database <- MSU_database[,0:29]
+MSU_database <- read.csv("Final_092023_MSU_Database.csv")
+MSU_database <- MSU_database[,0:30]
 
 MSU_database$Lake_lat <- as.numeric(MSU_database$Lake_lat)
 MSU_database$Lake_long <- as.numeric(MSU_database$Lake_long)
@@ -40,6 +41,7 @@ MSU_database = MSU_database %>%
 #FILTERING EVERYTHING OUT THAT WE DON'T WANT TO SHOW ON THE MAP
 MSU_database = MSU_database %>%
   filter(!is.na(Microsatellite_strain), Microsatellite_strain != "FAIL")%>%
+  filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
   mutate(Taxon = case_when(
     startsWith(Microsatellite_strain, "E") ~ "Eurasian",
     startsWith(Microsatellite_strain, "H") ~ "Hybrid",
@@ -99,7 +101,8 @@ for(i in 1:nrow(MSU_database)) {
 
 #CREATING THE MSU_DB_MARKERS DF
 MSU_db_markers = MSU_database %>%
-  filter(Microsatellite_strain != "FAIL") %>%
+  # filter(Microsatellite_strain != "FAIL") %>%
+  # filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
   group_by(Lake_lat, Lake_long) %>%
   summarize(Lake = first(Lake),
             Lake_sub_basin = first(Lake_sub_basin),
@@ -152,6 +155,8 @@ MSU_db_markers$Lake_WBI = unlist(lapply(seq(1, nrow(MSU_db_markers)), function (
          ")")
 }))
 
+
+
 #GETTING RID OF (NA) IF THERE IS NOT WBID
 for(r in 1:nrow(MSU_db_markers)) {
   MSU_db_markers$Lake_WBI[r] = gsub(pattern = "()", replacement = "", MSU_db_markers$Lake_WBI[r], fixed = TRUE)
@@ -160,21 +165,24 @@ for(r in 1:nrow(MSU_db_markers)) {
 #THIS FUNCTION ADDS LABELS TO EACH POINT WHEN CLICKED ON
 
 MSU_db_markers$maplabels = lapply(seq(1, nrow(MSU_db_markers)),
-                                    function(i) {
-                                      paste0("<span class = 'bold_this'> State: </span>", MSU_db_markers[i, "State"], '<br>',
-                                             "<span class = 'bold_this'> County: </span>", MSU_db_markers[i, "County"], '<br>',
-                                             "<span class = 'bold_this'> Lake (Waterbody ID): </span>", str_to_title(MSU_db_markers[i, "Lake_WBI"]), '<br>',
-                                             "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers[i, "Lake_sub_basin"], '<br>',
-                                             "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers[i, "Strains"], '<br>'
-                                             )
-                                    })
+                                  function(i) {
+                                    paste0("<span class = 'bold_this'> State: </span>", MSU_db_markers[i, "State"], '<br>',
+                                           "<span class = 'bold_this'> County: </span>", MSU_db_markers[i, "County"], '<br>',
+                                           "<span class = 'bold_this'> Lake (Waterbody ID): </span>", str_to_title(MSU_db_markers[i, "Lake_WBI"]), '<br>',
+                                           "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers[i, "Lake_sub_basin"], '<br>',
+                                           "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers[i, "Strains"], '<br>'
+                                    )
+                                   # if (!is.na(MSU_db_markers[i, "Lake_sub_basin"])) {
+                                   #   paste0("<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers[i, "Lake_sub_basin"], '<br>')
+                                   # }
+                                  })
 
 
 
 #CREATING THE MSU_DB_MARKERS_SB DF
 MSU_db_markers_sb = MSU_database %>%
-  filter(Microsatellite_strain != "FAIL") %>%
-  filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
+  # filter(Microsatellite_strain != "FAIL") %>%
+  # filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
   group_by(Lake, Lake_sub_basin) %>%
   summarize(Lake_sub_basin = first(Lake_sub_basin),
             Waterbody_ID = first(Waterbody_ID),
@@ -209,6 +217,10 @@ MSU_db_markers_sb$Lake_WBI = unlist(lapply(seq(1, nrow(MSU_db_markers_sb)), func
          ")")
 }))
 
+
+
+
+
 #GETTING RID OF (NA) IF THERE IS NOT WBID
 for(r in 1:nrow(MSU_db_markers_sb)) {
   MSU_db_markers_sb$Lake_WBI[r] = gsub(pattern = "()", replacement = "", MSU_db_markers_sb$Lake_WBI[r], fixed = TRUE)
@@ -224,9 +236,9 @@ MSU_db_markers_sb$maplabels = lapply(seq(1, nrow(MSU_db_markers_sb)),
                                            "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>',
                                            "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers_sb[i, "Strains"], '<br>'
                                     )
-                                   if (!is.na(MSU_db_markers_sb[i, "Lake_sub_basin"])) {
-                                     paste0("<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>')
-                                   } 
+                                   # if (!is.na(MSU_db_markers_sb[i, "Lake_sub_basin"])) {
+                                   #   paste0("<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>')
+                                   # } 
                                   })
 
 

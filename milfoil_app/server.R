@@ -77,7 +77,8 @@ observeEvent(list(input$Filter_States,
     HTML("<h2 id = 'info_header'>Strain Nomenclature</h2>
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
 <p><span id=arrowtag>&#x2794 </span>Additionally, ‘MISGP’ or ‘MYR’ in the ID represents the original database this sample is from, primarily for in-house purposes, but it is included for cross referencing convenience. </p>
-<p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>"
+<p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>
+<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include a combination of northern watermilfoil samples identified using our the same strain nomenclature mentioned above. Some strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>"
   )})  
   
   
@@ -264,11 +265,11 @@ observeEvent(Our_reactives$current_df, priority = 2, {
 observeEvent(list(session$initialized, input$info_button),{
   show_alert(title = "How To Use This Map", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
               text = HTML("
-<p> On this web page, you will find a map of the lower 48 states in the US at the center. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
+<p> On this web page, you will find a map of the lower 48 states in the United States. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
 
-<p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. Next to each filter there is an information button that can tell you how to use the respective filter. </p>
+<p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. When usiing the filters, make sure to remove 'All' from the filter before you select a specific option. To make the selection list go away, click outside of the filters. Additionally, you can create a list showing all lakes we have data for a given strain, state and or county.</p>
 
-<p>Clicking on any of the purple circle markers on the map will trigger a pop-up box that provides comprehensive information about the corresponding lake. This information encompasses the state, county, lake name, waterbody ID, and the specific strain(s) present within the lake. For strains with available herbicide response data, a clickable button is provided within the pop-up box. This button, when clicked, will display further details regarding the strain's response to tested herbicides. This supplementary information will be displayed below the filters, positioned to the left of the map. Alongside the strain's herbicide response data, relevant citations are also incorporated for reference.</p>
+<p>Clicking on any of the purple circle markers on the map will trigger a pop-up box that provides comprehensive information about the corresponding lake. This information encompasses the state, county, lake name, waterbody ID, and the specific strain(s) present within the lake. For strains with available herbicide response data, a clickable button is provided within the pop-up box. This button, when clicked, will display further details regarding the strain's response to tested herbicides. This supplementary herbicide response information will be displayed to the left of the map, below the filters. Alongside the strain's herbicide response data, relevant citations are also incorporated for reference.</p>
 
 <p>It’s important to note that only a fraction of the lakes in the United States have been genetically surveyed, with a greater concentration of surveying in the Midwest, due to funding and collaborative projects. As a result, certain strains or taxa may be present in more lakes than shown on this map. If your lake isn’t represented, and you’re curious about the watermilfoil strains present there, please don’t hesitate to contact us or visit the <a href = 'https://www.montana.edu/thumlab/'> Thum Lab’s website </a> for more information!</p>
 
@@ -315,7 +316,7 @@ output$general_info = renderText(({
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
 <p><span id=arrowtag>&#x2794 </span>Additionally, ‘MISGP’ or ‘MYR’ in the ID represents the original database this sample is from, primarily for in-house purposes, but it is included for cross referencing convenience. </p>
 <p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>
-<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include a combination of northern watermilfoil samples identified using our the same strain nomenclature mentioned above. Some strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>
+<p><span id=arrowtag>&#x2794 </span>Currently, we do not track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include northern watermilfoil samples identified using different naming systems. Some northern strains use the same strain nomenclature as mentioned above. Other strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>
 ")
 }))})
 
@@ -324,8 +325,9 @@ output$general_info = renderText(({
 observeEvent(input$lake_button, {
   lake_list = sort(unique(Our_reactives$current_df$Lake_WBI))
   lake_list2 = paste(lake_list, collapse = ",<br>")
-  show_alert(title = "How To Use This Map", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
-             text = HTML(lake_list2))
+  show_alert(title = "Selected list of lakes", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
+             text = HTML("<h2>Lake Name (Waterbody ID)</h2>
+                         <p>Based on the filters you have selected (State, County and or Strain), here is a list of lakes we have strain data for. If you do not see the lake you are looking for, you can assume that at this time, we have no strain data for that lake. If you want to see more strain data for more lakes, we encourage you to consider incorporating genetic testing and monitoring into your Eurasian watermilfoil management practices.</p>", lake_list2))
 })
 
 
@@ -341,7 +343,7 @@ observeEvent(input$reset_button,{
 })
 
 
-#putting logos in
+#PUTTING LOGOS IN
 output$combined_logos = renderImage({
   list(src = "www/combined logos.png")
 }, deleteFile = F)
@@ -362,6 +364,13 @@ output$milfoilimg3 = renderImage({
 output$milfoilimg4 = renderImage({
   list(src = "www/milf_art.png")
 }, deleteFile = F)
+
+
+#THE TEXT THAT FILLS THE FOOTER DIV
+output$suggestions = renderText(({
+  HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a>.<br>The data on this website was last updated 10/1/2023
+                 <br>Version 1 published 9/20/2023</p>")
+}))
 
 
 

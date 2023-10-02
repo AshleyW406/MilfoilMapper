@@ -27,7 +27,7 @@ ui <-   div(id = "entirepage",
 tags$head(
   tags$script('
       // Check if the browser is Safari
-      if (navigator.vendor && navigator.vendor.includes("Apple")) {
+      if (navigator.vendor & navigator.vendor.includes("Apple")) {
         document.documentElement.classList.add("safari");
       }
     ')
@@ -79,38 +79,44 @@ useShinyjs(),
                              "Map Instructions"),   
                 
                 selectInput("Filter_States", #inputID argument
-                            div("Pick A State"), #label argument
+                            div(id = "state_picker", 
+                                HTML(paste("Pick a State", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))), #label argument
                             choices = state_codes,
                             selectize = TRUE,
                             multiple = TRUE,
                             selected = c("All" = "All")), 
                 
                 selectInput("Filter_Counties", #inputID argument
-                            div("Pick A County"),
+                            div(id = "county_picker",  
+                                HTML(paste("Pick A County", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
                             c("All" = "All", sort(unique(MSU_db_markers$County))), #choices argument
                             multiple = TRUE,
                             selected = c("All" = "All")),
                 
                 hidden(selectInput("Filter_Lakes",
-                                   div("Pick A Lake"),
+                                   div(id = "lake_picker",  
+                                       HTML(paste("Pick A Lake", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
                                    choices = c("All" = "All"),
                                    multiple = TRUE,
                                    selected = c("All" = "All"))),
                 
                 hidden(selectInput("Filter_SubBasins",
-                                   div("Pick A Known Sub Basin"),
+                                   div(id = "sub_basin_picker",  
+                                       HTML(paste("Pick A Known Sub Basin", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
                                    choices = c("All" = "All"),
                                    multiple = TRUE,
                                    selected = c("All" = "All"))),
                 
                 selectInput("Filter_Taxon",
-                            div("Pick A Known Taxon"),
+                            div(id = "taxon_picker", 
+                                HTML(paste("Pick A Known Taxon", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
                             choices = c("All" = "All", sort(unique(MSU_db_markers$Taxon))),
                             multiple = TRUE,
                             selected = c("All" = "All")),
                 
                 selectInput("Filter_Strain",
-                            div("Pick A Known Strain"),
+                            div(id = "strain_picker",  
+                                HTML(paste("Pick A Known Strain", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
                             choices = c("All" = "All", sort(unique(MSU_database$Microsatellite_strain))),
                             multiple = TRUE,
                             selected = c("All" = "All")),
@@ -154,7 +160,7 @@ useShinyjs(),
         #FOOTER DIV
         div(id = "footer",
             
-            HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a>.<br>The data on this website was last updated 7/1/2023.</p>")
+            htmlOutput("suggestions"),
             
             ),
         
