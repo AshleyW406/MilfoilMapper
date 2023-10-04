@@ -30,6 +30,7 @@ div#entirepage {
   flex-direction: column;
 }
 
+
 div#toprow {
   min-height: 10%;
   max-height: 10%;
@@ -92,7 +93,6 @@ h1#apptitle {
   font-size: 3.5vw;
   font-weight: bold;
   font-style: italic; 
-  /*transform: skewX(-20deg); */
   font-variant: small-caps;
   color: #555D80;
   padding-right: 10px;
@@ -159,111 +159,111 @@ div#filtersandinfo {
 
 /*putting colors on all of the genotype headers in the herbicide response div */
 h3#Flur_H_MISGP_249 {
-  color:#B51963 ;
+  color:#B51963;
 }
 
 h3#H_MISGP_249 {
-  color: #5BA300 ;
+  color: #5BA300;
 }
 
 h3#Flur_E_MISGP_1802 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#E_MISGP_1802 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_E_MISGP_380 {
-  color:#B51963 ;
+  color:#B51963;
 }
 
 h3#E_MISGP_380 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_E_MISGP_734 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#E_MISGP_734 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MISGP_187 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 h3#H_MISGP_187 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MISGP_464 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 
 h3#Flur_H_MISGP_518 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MISGP_518 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MYR_1099 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MYR_1099 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MYR_4866 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MYR_4866 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MYR_5016 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MYR_5016 {
-  color:#B51963 ;
+  color:#B51963;
 }
 
 h3#Flur_H_MYR_7905 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MYR_11345 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_E_MISGP_1863 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#E_MISGP_1863 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MISGP_1799 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MISGP_1799 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#Flur_H_MISGP_231 {
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 h3#H_MISGP_231{
-  color:#5BA300 ;
+  color:#5BA300;
 }
 
 
@@ -318,6 +318,13 @@ div#filters {
   min-height: 46%;
   overflow-y: auto;
   padding: 2%;
+}
+
+div.label_span {
+ color: #B3B7C9 !important;
+ display: inline;
+ font-style: italic;
+ font-size: 12pt;
 }
 
 
@@ -459,7 +466,7 @@ div#milfoilimg4 {
   display: flex;
   align-items: center;
   justify-content: left;
-  transform: scaleX(-1)
+  transform: scaleX(-1);
 }
 
 div#milfoilimg1 img,

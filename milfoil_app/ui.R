@@ -27,7 +27,7 @@ ui <-   div(id = "entirepage",
 tags$head(
   tags$script('
       // Check if the browser is Safari
-      if (navigator.vendor & navigator.vendor.includes("Apple")) {
+      if (navigator.vendor && navigator.vendor.includes("Apple")) {
         document.documentElement.classList.add("safari");
       }
     ')
@@ -80,7 +80,8 @@ useShinyjs(),
                 
                 selectInput("Filter_States", #inputID argument
                             div(id = "state_picker", 
-                                HTML(paste("Pick a State", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))), #label argument
+                                tags$span("Pick a State "), 
+                                     tags$div("(Delete 'All' First)", class='label_span')), 
                             choices = state_codes,
                             selectize = TRUE,
                             multiple = TRUE,
@@ -88,35 +89,40 @@ useShinyjs(),
                 
                 selectInput("Filter_Counties", #inputID argument
                             div(id = "county_picker",  
-                                HTML(paste("Pick A County", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
+                                tags$span("Pick A County"),
+                                    tags$div("(Delete 'All' First)", class='label_span')),
                             c("All" = "All", sort(unique(MSU_db_markers$County))), #choices argument
                             multiple = TRUE,
                             selected = c("All" = "All")),
                 
                 hidden(selectInput("Filter_Lakes",
                                    div(id = "lake_picker",  
-                                       HTML(paste("Pick A Lake", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
+                                       tags$span("Pick A Lake"),
+                                            tags$div("(Delete 'All' First)", class='label_span')),
                                    choices = c("All" = "All"),
                                    multiple = TRUE,
                                    selected = c("All" = "All"))),
                 
                 hidden(selectInput("Filter_SubBasins",
                                    div(id = "sub_basin_picker",  
-                                       HTML(paste("Pick A Known Sub Basin", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
+                                       tags$span("Pick A Sub Basin"),
+                                            tags$div("(Delete 'All' First)", class='label_span')),
                                    choices = c("All" = "All"),
                                    multiple = TRUE,
                                    selected = c("All" = "All"))),
                 
                 selectInput("Filter_Taxon",
                             div(id = "taxon_picker", 
-                                HTML(paste("Pick A Known Taxon", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
+                                tags$span("Pick A Taxon"),
+                                    tags$div("(Delete 'All' First)", class='label_span')),
                             choices = c("All" = "All", sort(unique(MSU_db_markers$Taxon))),
                             multiple = TRUE,
                             selected = c("All" = "All")),
                 
                 selectInput("Filter_Strain",
                             div(id = "strain_picker",  
-                                HTML(paste("Pick A Known Strain", "<span style='color:#B3B7C9; font-size:12pt'><i>(Delete 'All' First)</i></span>"))),
+                                tags$span("Pick A Strain"),
+                                    tags$div("(Delete 'All' First)", class='label_span')),
                             choices = c("All" = "All", sort(unique(MSU_database$Microsatellite_strain))),
                             multiple = TRUE,
                             selected = c("All" = "All")),

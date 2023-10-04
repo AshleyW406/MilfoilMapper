@@ -35,6 +35,7 @@ MSU_database$Date_collected <- as.Date(MSU_database$Date_collected)
 MSU_database = MSU_database %>% 
   filter(!is.na(Lake_long), !is.na(Lake_lat), Lake_long > -180, Lake_long < 0)
 
+MSU_database[MSU_database == ""] = NA
 
 # Filtering the database df -----------------------------------------------
 
@@ -181,8 +182,6 @@ MSU_db_markers$maplabels = lapply(seq(1, nrow(MSU_db_markers)),
 
 #CREATING THE MSU_DB_MARKERS_SB DF
 MSU_db_markers_sb = MSU_database %>%
-  # filter(Microsatellite_strain != "FAIL") %>%
-  # filter(Microsatellite_strain != "DIFFERENT SPECIES") %>%
   group_by(Lake, Lake_sub_basin) %>%
   summarize(Lake_sub_basin = first(Lake_sub_basin),
             Waterbody_ID = first(Waterbody_ID),
