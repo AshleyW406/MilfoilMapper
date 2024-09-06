@@ -9,6 +9,8 @@ library(shinyjs)
 library(shinyWidgets)
 library(readr)
 library(shinyBS)
+library(dplyr)
+library(knitr)
 
 #install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
 #install.packages("USAboundaries", repos = "https://ropensci.r-universe.dev", type = "source")
@@ -24,8 +26,9 @@ options("repos")
 # Loading in the database -------------------------------------------------
 
 
-MSU_database <- read.csv("Final_092023_MSU_Database.csv")
-MSU_database <- MSU_database[,0:30]
+MSU_database <- read.csv("Final_082624_MSU_Database.csv")
+#this will need to change if I add more columns, only here to get rid of empty cols r is pulling in
+MSU_database <- MSU_database[,0:30] 
 
 MSU_database$Lake_lat <- as.numeric(MSU_database$Lake_lat)
 MSU_database$Lake_long <- as.numeric(MSU_database$Lake_long)
@@ -49,6 +52,22 @@ MSU_database = MSU_database %>%
     startsWith(Microsatellite_strain, "N") ~ "Northern")) %>%
   relocate(Taxon, .after = Collector)
 
+#HOW MANY LAKES DO WE HAVE?
+#list(unique(MSU_database$Lake))
+
+#HOW MANY UNIQUE STRAINS?
+#list(unique(MSU_database$Microsatellite_strain))
+
+
+# MAKING A TABLE TO SHOW ME NUMBER OF LAKES A STRAIN IS FOUND IN
+
+lake_counts <- MSU_database %>%
+  group_by(Microsatellite_strain, Lake_sub_basin) %>%
+  summarise(Lakes_Found = n_distinct(Lake))
+
+kable(lake_counts, 
+      caption = "Number of Lakes Each Strain is Found in by State and County",
+      col.names = c("Strain", "Lake_sub_basin", "Number of Lakes"))
 
 
 
@@ -80,6 +99,15 @@ for(i in 1:nrow(MSU_database)) {
                                                               "'><span class = 'color_pink'>Resistant</span></button>"), 
                                          x = MSU_database$strain_response[i])
   
+  
+  MSU_database$strain_response[i] = gsub(pattern = "Fluridone: Of Concern",
+                                         replacement = paste0("Fluridone: ",
+                                                              "<button class = 'response-button' data-id = '",
+                                                              MSU_database$Microsatellite_strain[i], "-Fluridone",
+                                                              "'><span class = 'color_orange'>Of Concern</span></button>"), 
+                                         x = MSU_database$strain_response[i])
+  
+  
   MSU_database$strain_response[i] = gsub(pattern = "2,4-D: Sensitive",
                                          replacement = paste0("2,4-D: ",
                                                               "<button class = 'response-button' data-id = '",
@@ -110,6 +138,7 @@ MSU_db_markers = MSU_database %>%
             Waterbody_ID = first(Waterbody_ID),
             State = first(State),
             County = first(County),
+            Year_collected = paste0(unique(Year_collected), collapse = ", "),
             Taxon = first(Taxon),
             Strains = paste0(unique(strain_response), collapse = ",<br>")) %>% 
   ungroup()
@@ -120,9 +149,10 @@ MSU_db_markers = MSU_database %>%
 herb_table <- read.csv("Herbicide_response_table.csv")
 
 #CREATING A STATE_CODES OBJECT THAT HAS FULL STATE NAMES AND THEIR ABBREVIATIONS
-state_codes <- c("All" = "All", "Illinois" = "IL", "Indiana" = "IN", "Iowa" = "IA", "Michigan" = "MI", 
+state_codes <- c("All" = "All", "Illinois" = "IL", "Indiana" = "IN", "Iowa" = "IA", "Maryland" = "MD", "Michigan" = "MI", 
                  "Minnesota" = "MN", "Nebraska" = "NE", "New York" = "NY", "Ohio" = "OH",
-                 "Pennsylvania" = "PA", "South Carolina" = "SC", "Vermont" = "VT", "Wisconsin" = "WI")
+                 "Pennsylvania" = "PA", "South Carolina" = "SC", "Vermont" = "VT", 
+                 "Washington" = "WA",  "Wisconsin" = "WI")
 
 
 #SUBSETS THE MAP TO JUST SHOW THE LOWER 48 STATES
@@ -171,6 +201,7 @@ MSU_db_markers$maplabels = lapply(seq(1, nrow(MSU_db_markers)),
                                            "<span class = 'bold_this'> County: </span>", MSU_db_markers[i, "County"], '<br>',
                                            "<span class = 'bold_this'> Lake (Waterbody ID): </span>", str_to_title(MSU_db_markers[i, "Lake_WBI"]), '<br>',
                                            "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers[i, "Lake_sub_basin"], '<br>',
+                                           "<span class = 'bold_this'> Year(s) Collected: </span>", MSU_db_markers[i, "Year_collected"], '<br>',
                                            "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers[i, "Strains"], '<br>'
                                     )
                                    # if (!is.na(MSU_db_markers[i, "Lake_sub_basin"])) {
@@ -190,6 +221,7 @@ MSU_db_markers_sb = MSU_database %>%
             Taxon = first(Taxon),
             Lake_lat = first(Lake_lat),
             Lake_long = first(Lake_long),
+            Year_collected = first(Year_collected),
             Strains = paste0(unique(strain_response), collapse = ",<br>")) %>% 
   ungroup()
 
@@ -233,6 +265,7 @@ MSU_db_markers_sb$maplabels = lapply(seq(1, nrow(MSU_db_markers_sb)),
                                            "<span class = 'bold_this'> County: </span>", MSU_db_markers_sb[i, "County"], '<br>',
                                            "<span class = 'bold_this'> Lake (Waterbody ID): </span>", str_to_title(MSU_db_markers_sb[i, "Lake_WBI"]), '<br>',
                                            "<span class = 'bold_this'> Sub Basin: </span>", MSU_db_markers_sb[i, "Lake_sub_basin"], '<br>',
+                                           "<span class = 'bold_this'> Year(s) Collected: </span>", MSU_db_markers[i, "Year_collected"], '<br>',
                                            "<span class = 'bold_this'> Strain IDs</span> (Herbicide Response): <br>", MSU_db_markers_sb[i, "Strains"], '<br>'
                                     )
                                    # if (!is.na(MSU_db_markers_sb[i, "Lake_sub_basin"])) {

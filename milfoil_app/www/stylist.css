@@ -41,11 +41,11 @@ div#toprow {
   display: flex;
 }
 
-.safari .safari-divs {
+/*.safari .safari-divs {
   min-height: 15%;
   max-height: 15%;
   height: 15%;
-}
+} */
 
 div#topleftbuffer, div#toprightbuffer {
   min-height: 100%;
@@ -63,8 +63,6 @@ div#titleandlogos{
   width: 80%;
   max-width: 80%;
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
 }
 
 div#title {
@@ -78,7 +76,7 @@ div#title {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin: 0% 0% 5% 3%;
+  margin: 0%;
 }
 
 div#title span {
@@ -90,7 +88,7 @@ div#title span {
 
 h1#apptitle {
   max-width: 100%;
-  font-size: 3.5vw;
+  font-size: 30pt;
   font-weight: bold;
   font-style: italic; 
   font-variant: small-caps;
@@ -102,18 +100,24 @@ h1#apptitle {
   border-top: 3px solid #555D80;
   border-bottom: 3px solid #555D80;
   text-align: right;
+  margin: 0%;
 }
 
-@media (max-width: 500px) {
+/*@media (max-width: 500px) {
   h1#apptitle {
     font-size: 4vw; 
   }
-}
+} */
 
-@media (max-width: 685px) {
+/* @media (max-width: 685px) {
   h1#apptitle {
     font-size: 3.25vw; 
   }
+} */
+
+.shiny-image-output {
+  max-height: 100% !important;
+  height: auto !important;
 }
 
 div#logos {
@@ -238,7 +242,7 @@ h3#Flur_H_MYR_7905 {
   color:#5BA300;
 }
 
-h3#Flur_H_MYR_11345 {
+h3#Flur_H_MYR_457 {
   color:#5BA300;
 }
 
@@ -266,6 +270,31 @@ h3#H_MISGP_231{
   color:#5BA300;
 }
 
+h3#N_MYR_15319{
+  color:#B51963;
+}
+
+h3#Flur_H_MISGP_1443{
+  color:#FFC014;
+}
+
+h3#H_MISGP_1443{
+  color:#5BA300;
+}
+
+h3#Flur_H_MISGP_1861{
+  color:#FFC014;
+}
+
+h3#Flur_H_MYR_10920{
+  color:#FFC014;
+}
+
+h3#Flur_H_MISGP_1528{
+  color:#5BA300;
+}
+
+
 
 div#map {
   width: 64%;
@@ -275,9 +304,6 @@ div#map {
   min-height: 90%;
   max-height: 90%;
   margin: auto;
-  /*margin: 0% 2%;*/
-  /*border: 6px double #555D80; */
-  /*padding: 10px;*/
 }
 
 div.leaflet {
@@ -310,6 +336,10 @@ span.color_pink {
   font-weight: bold;
 }
 
+span.color_orange {
+  color:#FFC014;
+  font-weight: bold;
+}
 
 div#filters {
   border: 2px solid #555D80;
@@ -432,6 +462,9 @@ div#footer {
   font-size: 10pt;
 }
 
+div#suggestions {
+  width: 95%;
+}
 
 div#milfoilimg1,
 div#milfoilimg2,

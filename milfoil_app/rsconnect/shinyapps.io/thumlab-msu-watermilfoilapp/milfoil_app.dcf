@@ -5,7 +5,8 @@ account: thumlab-msu-watermilfoilapp
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 9688332
-bundleId: 7747890
+bundleId: 9062203
 url: https://thumlab-msu-watermilfoilapp.shinyapps.io/milfoil_app/
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: Final_012424_MSU_Database.csv|Final_012424_MSU_Database.xlsx|Final_020524_MSU_Database.csv|Final_020524_MSU_Database.xlsx|Final_030524_MSU_Database.csv|Final_030524_MSU_Database.xlsx|Final_041724_MSU_Database.csv|Final_041724_MSU_Database.xlsx|Final_0813724_MSU_Database.csv|Final_0813724_MSU_Database.xlsx|Final_092023_MSU_Database.csv|Final_092023_MSU_Database.xlsx|Final_2023_MSU_Database_ALW.csv|Final_2023_MSU_Database_ALW.xlsx

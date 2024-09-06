@@ -23,14 +23,18 @@ ui <-   div(id = "entirepage",
   });
   '
   ),
+# 
+# tags$head(
+#   tags$script('
+#       // Check if the browser is Safari
+#       if (navigator.vendor && navigator.vendor.includes("Apple")) {
+#         document.documentElement.classList.add("safari");
+#       }
+#     ')
+# ),
 
 tags$head(
-  tags$script('
-      // Check if the browser is Safari
-      if (navigator.vendor && navigator.vendor.includes("Apple")) {
-        document.documentElement.classList.add("safari");
-      }
-    ')
+  tags$script(src = "move_logos.js")
 ),
   
 #LETS US PERFORM JAVASCRIPT IN SHINY
@@ -166,8 +170,7 @@ useShinyjs(),
         #FOOTER DIV
         div(id = "footer",
             
-            htmlOutput("suggestions"),
-            
+            htmlOutput("suggestions")
             ),
         
         div(id = "bottomrightbuffer",
@@ -177,6 +180,7 @@ useShinyjs(),
             )
         
         )
+
     
 ) #END OF PAGE
 

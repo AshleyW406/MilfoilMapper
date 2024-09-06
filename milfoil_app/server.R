@@ -78,7 +78,8 @@ observeEvent(list(input$Filter_States,
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
 <p><span id=arrowtag>&#x2794 </span>Additionally, ‘MISGP’ or ‘MYR’ in the ID represents the original database this sample is from, primarily for in-house purposes, but it is included for cross referencing convenience. </p>
 <p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>
-<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include a combination of northern watermilfoil samples identified using our the same strain nomenclature mentioned above. Some strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>"
+<p><span id=arrowtag>&#x2794 </span>For example, E_MISGP_734 reads as the 734th Eurasian watermilfoil strain in the MISGP database. From this we know the strain with this name is a Eurasian watermilfoil strain.
+<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management because they are a native to the United States. As a result, northern watermilfoil strains will either be labeled using the above nomenclature, or simply as NORTHERN.</p>"
   )})  
   
   
@@ -267,7 +268,7 @@ observeEvent(list(session$initialized, input$info_button),{
               text = HTML("
 <p> On this web page, you will find a map of the lower 48 states in the United States. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
 
-<p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. When usiing the filters, make sure to remove 'All' from the filter before you select a specific option. To make the selection list go away, click outside of the filters. Additionally, you can create a list showing all lakes we have data for a given strain, state and or county.</p>
+<p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. When usiing the filters, make sure to remove 'All' from the filter before you select a specific option. To make the selection list go away, click outside of the filters. Additionally, you can create a list showing all lakes we have data from for a given strain, state and or county.</p>
 
 <p>Clicking on any of the purple circle markers on the map will trigger a pop-up box that provides comprehensive information about the corresponding lake. This information encompasses the state, county, lake name, waterbody ID, and the specific strain(s) present within the lake. For strains with available herbicide response data, a clickable button is provided within the pop-up box. This button, when clicked, will display further details regarding the strain's response to tested herbicides. This supplementary herbicide response information will be displayed to the left of the map, below the filters. Alongside the strain's herbicide response data, relevant citations are also incorporated for reference.</p>
 
@@ -316,8 +317,8 @@ output$general_info = renderText(({
 <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID referrers to the taxon, distinguishing between Eurasian (<i>Myriophyllum spicatum</i>), northern (<i>M. sibiricum</i>) or hybrid (<i>M. spicatum × M. sibiricum</i>) watermilfoil.</p>
 <p><span id=arrowtag>&#x2794 </span>Additionally, ‘MISGP’ or ‘MYR’ in the ID represents the original database this sample is from, primarily for in-house purposes, but it is included for cross referencing convenience. </p>
 <p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID signifies the sample number it was initially assigned in the given database.</p>
-<p><span id=arrowtag>&#x2794 </span>Currently, we do not track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management becuase they are a native to the United States. As a result, our list of strains may include northern watermilfoil samples identified using different naming systems. Some northern strains use the same strain nomenclature as mentioned above. Other strains may be marked as 'N-REF' followed by their assigned sample number, while others may be labeled simply as 'NORTHERN'.</p>
-")
+<p><span id=arrowtag>&#x2794 </span>For example, E_MISGP_734 reads as the 734th Eurasian watermilfoil strain in the MISGP database. From this we know the strain with this name is a Eurasian watermilfoil strain.
+<p><span id=arrowtag>&#x2794 </span>Currently, we do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management because they are a native to the United States. As a result, northern watermilfoil strains will either be labeled using the above nomenclature, or simply as NORTHERN.</p>")
 }))})
 
 
@@ -345,7 +346,7 @@ observeEvent(input$reset_button,{
 
 #PUTTING LOGOS IN
 output$combined_logos = renderImage({
-  list(src = "www/combined logos.png")
+  list(src = "www/combined logos.png", height = "81px")
 }, deleteFile = F)
 
 
@@ -368,7 +369,7 @@ output$milfoilimg4 = renderImage({
 
 #THE TEXT THAT FILLS THE FOOTER DIV
 output$suggestions = renderText(({
-  HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a>.<br>The data on this website was last updated 10/1/2023
+  HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a><br>The data on this website was last updated 9/4/2024
                  <br>Version 1 published 9/20/2023</p>")
 }))
 
