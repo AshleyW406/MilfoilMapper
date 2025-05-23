@@ -1,6 +1,6 @@
 #CALLING AND LOADING ALL OF OUR NECESSARY PACKAGES
 library(shiny)
-library(tidyverse) #maybe get rid of this eventually, maybe overkill
+library(tidyverse) 
 library(leaflet)
 library(USAboundaries)
 library(sf)
@@ -9,7 +9,6 @@ library(shinyjs)
 library(shinyWidgets)
 library(readr)
 library(shinyBS)
-library(dplyr)
 library(knitr)
 
 #install.packages("USAboundariesData", repos = "https://ropensci.r-universe.dev", type = "source")
@@ -26,7 +25,7 @@ options("repos")
 # Loading in the database -------------------------------------------------
 
 
-MSU_database <- read.csv("Final_082624_MSU_Database.csv")
+MSU_database <- read.csv("PlantDatabase_041625.csv")
 #this will need to change if I add more columns, only here to get rid of empty cols r is pulling in
 MSU_database <- MSU_database[,0:30] 
 

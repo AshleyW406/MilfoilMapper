@@ -369,7 +369,7 @@ output$milfoilimg4 = renderImage({
 
 #THE TEXT THAT FILLS THE FOOTER DIV
 output$suggestions = renderText(({
-  HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a><br>The data on this website was last updated 9/4/2024
+  HTML("<p>Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a><br>The data on this website was last updated 5/8/2025
                  <br>Version 1 published 9/20/2023</p>")
 }))
 

@@ -36,8 +36,32 @@ ui <-   div(id = "entirepage",
 tags$head(
   tags$script(src = "move_logos.js")
 ),
-  
-#LETS US PERFORM JAVASCRIPT IN SHINY
+
+##UI Code--make sure this goes somewhere inside of your largest UI container!
+
+#We need to put this code inside two script HTML elements inside of our app's head element. This is how we do that. 
+shiny::tags$head(
+  shiny::tags$script(
+    src = "https://www.googletagmanager.com/gtag/js?id=[Your specific Gtag]",
+    async = ""
+  ),
+  shiny::tags$script( #Pure JavaScrit code below! No need to know what it's doing.
+    src = "$(() => {
+
+  /* Default installation */
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  };
+  gtag('js', new Date());
+  gtag('config', '[G-T1T64RRSX3]');
+
+});"
+  )
+),
+
+#LET US PERFORM JAVASCRIPT IN SHINY
 useShinyjs(),
  
   
