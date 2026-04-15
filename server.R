@@ -1,0 +1,385 @@
+#create server object (custom function)
+
+server <- shinyServer(
+  function(input, output, session){
+    #all operations server will actually do
+    
+
+# Strain Map --------------------------------------------------------------
+
+    
+output$milfoil_map <- renderLeaflet({
+
+  leaflet(options = list(minZoom = 4.5, maxZoom = 14)) %>%
+    setMaxBounds(lng1 = bounds[1]-10 ,lat1 = bounds[2]-10, lng2 = bounds[3]+10, lat2 = bounds[4]+10) %>%
+    addTiles() %>%
+    addPolygons(
+      data = US$geometry,
+      stroke = TRUE,
+      weight = 2,
+      fill = FALSE,
+      color = "black"
+    ) %>%
+    addCircleMarkers(
+     data = MSU_db_markersSF$geometry,
+     radius = 5,
+     color = "#555D80",
+    fillColor = "#94A4DF",
+  popup = lapply(MSU_db_markers$maplabels, HTML),
+  popupOptions = popupOptions(
+    className = "map_hovers"))
+    
+})    
+
+
+
+# Reactive Values ---------------------------------------------------------
+#
+Our_reactives = reactiveValues(current_df = MSU_db_markers)
+
+
+
+
+
+# All Observers ---------------------------------------------------------------
+
+# Filter Observers --------------------------------------------------------
+
+#OBSERVER TO WATCH FILTERS AND FILTER OUR REACTIVE DATAFRAME ACCORDINGLY
+observeEvent(list(input$Filter_States, 
+                  input$Filter_Counties, 
+                  input$Filter_Lakes,
+                  input$Filter_SubBasins,
+                  input$Filter_WBID,
+                  input$Filter_Taxon,
+                  input$Filter_Strain), priority = 2, {
+  
+#SHORT HANDS                    
+  state = input$Filter_States 
+  county = input$Filter_Counties
+  lake = input$Filter_Lakes
+  sub = input$Filter_SubBasins
+  WBID = input$Filter_WBID
+  taxon = input$Filter_Taxon
+  strain = input$Filter_Strain
+  
+  if(!"All" %in% state &
+     !"All" %in% county &
+     !"All" %in% lake) {
+    df_to_filter = MSU_db_markers_sb
+  } else {
+    df_to_filter = MSU_db_markers
+  }
+
+ 
+   
+#TEXT THAT JUST LIVES IN THE DIV BELOW THE FILTERS DIV  
+  output$general_info = renderText({
+    HTML("<h2 id = 'info_header'>Strain Nomenclature</h2>
+<p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID refers to the taxon, E = Eurasian watermilfoil (<i>Myriophyllum spicatum</i>), N = northern watermilfoil (<i>M. sibiricum</i>), and H = hybrid watermilfoil (<i>M. spicatum × M. sibiricum</i>).</p>
+<p><span id=arrowtag>&#x2794 </span>In the strain ID, ‘MYR’ or ‘MISGP’ is an internal reference that indicates the original dataset the individual belongs to.</p>
+<p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID indicates the sample number of the first observation of the strain.</p>
+<p><span id=arrowtag>&#x2794 </span>For example, the identification code for E_MISGP_734 tells us it is a Eurasian watermilfoil strain, sample 734 from the MISGP database.</p>
+<p><span id=arrowtag>&#x2794 </span>We do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management because they are a native to the United States. As a result, northern watermilfoil strains will either be labeled using the above nomenclature, or simply as NORTHERN.</p>"
+  )})  
+  
+  
+#ESTABLISHING FOR EACH FILTER WHAT WE WILL FILTER BY (EITHER NOTHING OR SPECIFIC VALUES)  
+  
+  if("All" %in% state | is_null(state)) {
+    states_to_filter_by = unname(state_codes)
+    
+  } else {
+    states_to_filter_by = state
+  }
+  
+  if("All" %in% county | is_null(county)) {
+    counties_to_filter_by = unique(df_to_filter$County)
+    
+  } else {
+    counties_to_filter_by = county
+  }
+  
+  if("All" %in% lake | is_null(lake)) {
+    lakes_to_filter_by = unique(df_to_filter$Lake)
+    
+  } else {
+    lakes_to_filter_by = lake
+  }
+  
+  if("All" %in% sub | is_null(sub)) {
+    basins_to_filter_by = unique(df_to_filter$Lake_sub_basin)
+    
+  } else {
+    basins_to_filter_by = sub
+  }
+  
+  if("All" %in% taxon) {
+    taxa_to_filter_by = unique(df_to_filter$Taxon)
+    
+  } else {
+    taxa_to_filter_by = taxon
+  }
+  
+  if("All" %in% strain | is_null(strain)) {
+    strains_to_filter_by = "-"
+    
+  } else {
+    strains_to_filter_by = as.character(strain)
+  }
+  
+
+  
+#THIS PART IS DOING THE FILTERING  
+  Our_reactives$current_df = df_to_filter %>%
+     filter(State %in% states_to_filter_by, 
+            County %in% counties_to_filter_by,
+            Lake %in% lakes_to_filter_by,
+            Lake_sub_basin %in% basins_to_filter_by,
+            Taxon %in% taxa_to_filter_by,
+            grepl(strains_to_filter_by, .$Strains, fixed = T))
+})
+
+
+#THESE ARE DISABLING AND ENABLING FILTERS ACCORDING TO WHAT FILTERS THE USER HAS ALREADY USED
+observeEvent(list(input$Filter_States, input$Filter_Counties, input$Filter_Lakes), priority = -1, { 
+  if(!"All" %in% input$Filter_States & !"All" %in% input$Filter_Counties) {
+    shinyjs::disable("Filter_States")
+    
+  } else {
+    shinyjs::enable("Filter_States")
+  }
+})
+
+
+observeEvent(list(input$Filter_States, input$Filter_Counties, input$Filter_Lakes), priority = 0, {
+  if(!"All" %in% input$Filter_Lakes) {
+    shinyjs::disable("Filter_States")
+    shinyjs::disable("Filter_Counties")
+    
+  } else {
+    shinyjs::enable("Filter_States")
+    shinyjs::enable("Filter_Counties")
+  }
+})
+
+
+
+#WATCHING THE STATES FILTER AND POPULATING THE COUNTIES FILTER ACCORDING TO THE COUNTIES THAT EXIST WITHIN THAT STATE
+observeEvent(input$Filter_States, priority = -1, {
+  
+  updateSelectInput(session, 
+                    "Filter_Counties",
+                    choices = c("All", sort(unique(Our_reactives$current_df$County))),
+                    selected = c("All" = "All"))
+})
+
+#WATCHING THE STATES AND COUNTIES FILTER AND POPULATING THE LAKES FILTER ACCORDING THE THE STATE AND OR COUNTY SELECTED
+#AND SHOWING OR HIDING THE LAKE FILTER DEPENDING ON USER FILTER SELECTION
+observeEvent(list(input$Filter_States, input$Filter_Counties), {
+  if(!"All" %in% input$Filter_States | !"All" %in% input$Filter_Counties) {
+    updateSelectInput(session, 
+                      "Filter_Lakes",
+                      choices = c("All", sort(unique(Our_reactives$current_df$Lake))),
+                      selected = "All")
+    show("Filter_Lakes")
+    
+  } else{
+    hide("Filter_Lakes")
+  }
+  
+})
+
+
+#WATCHING THE STATES, COUNTIES AND LAKES FILTER, POPULATING THE SUB BASIN FILTER ACCORDING THE THE STATE, COUNTY AND OR LAKE SELECTED
+#AND SHOWING OR HIDING THE SUB BASIN FILTER DEPENDING ON USER FILTER SELECTION
+observeEvent(list(input$Filter_States, input$Filter_Counties, input$Filter_Lakes), {
+  if(!"All" %in% input$Filter_States & !"All" %in% input$Filter_Counties & !"All" %in% input$Filter_Lakes) {
+    updateSelectInput(session, 
+                      "Filter_SubBasins",
+                      choices = c("All", sort(unique(Our_reactives$current_df$Lake_sub_basin))),
+                      selected = "All")
+    show("Filter_SubBasins")
+    
+  } else{
+    hide("Filter_SubBasins")
+  }
+  
+})
+
+#browser()
+
+#THIS IS WATCHING TO SEE IF THE REACTIVE DF HAS CHANGED BASED ON FILTERS THAT HAVE CHANGED AND IF SO IT FLYS TO THE CURRENT SELECTIONS
+observe({
+  req(input$Filter_Lakes) #This make a smoother transition between lake selections so it doesn't zoom all the way back out to the state level
+  Our_df_SF = st_as_sf(
+    Our_reactives$current_df,
+    coords = c("Lake_long", "Lake_lat"),
+    crs = 4326  # WGS 84 CRS (standard for lat/long)
+  )
+  
+  bounds <- unname(st_bbox(Our_df_SF))
+  
+  leafletProxy("milfoil_map")%>%
+    flyToBounds(bounds[1], bounds[2], bounds[3], bounds[4])# %>%
+    # setMaxBounds(bounds[1], bounds[2], bounds[3], bounds[4])
+})
+
+
+
+# Reactive dataframe observer ---------------------------------------------
+
+
+#REFRESHES MAP MARKERS BASED ON HOW OUR MAP SELECTIONS HAVE CHANGED
+observeEvent(Our_reactives$current_df, priority = 2, {
+  
+  Our_df_SF = st_as_sf(
+    Our_reactives$current_df,
+    coords = c("Lake_long", "Lake_lat"),
+    crs = 4326  # WGS 84 CRS (standard for lat/long)
+  )
+  
+#  browser() #allows us to temporarily look at what the df looks like at that moment and help with debugging WE DO NOT WANT THIS TO RUN ALL THE TIME
+  
+  leafletProxy("milfoil_map") %>%
+    clearMarkers() %>%
+    addCircleMarkers(
+      data = Our_df_SF$geometry,
+      radius = 7.5,
+      color = 'black',
+      stroke = T,
+      opacity = 1,
+      weight = 1,
+      fillColor = '#94A4DF',
+      fillOpacity = .7,
+      popup = lapply(Our_reactives$current_df$maplabels, HTML),
+      popupOptions = popupOptions(
+        className = "map_hovers")) 
+  
+}) 
+
+
+
+# Button observers --------------------------------------------------------
+
+
+#MAKING THE POP UP INFO BOX
+observeEvent(list(session$initialized, input$info_button),{
+  show_alert(title = "How To Use This Map", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
+              text = HTML("
+<p> On this web page, you will find a map of the lower 48 states in the United States. Circle markers on the map show watermilfoil strains present within a given lake. When you click on any marker, a pop-up appears, revealing additional information about the selected strain such as its location and herbicide response data.</p>
+
+<p>To refine your search, filters are available at the left of the screen. These filters enable you to narrow down your results by state, county, lake, waterbody ID and taxa. Moreover, you can filter by an individual strain of interest, making it easier to identify its occurrences in other locations. When usiing the filters, make sure to remove 'All' from the filter before you select a specific option. To make the selection list go away, click outside of the filters. Additionally, you can create a list showing all lakes we have data from for a given strain, state and or county.</p>
+
+<p>Clicking on any of the circle markers on the map will trigger a pop-up box that provides comprehensive information about the corresponding lake. This information encompasses the state, county, lake name, waterbody ID, and the specific strain(s) present within the lake. For strains with available herbicide response data, a clickable button is provided within the pop-up box. This button, when clicked, will display further details regarding the strain's response to tested herbicides. This supplementary herbicide response information will be displayed to the left of the map, below the filters. Alongside the strain's herbicide response data, relevant citations are also incorporated for reference.</p>
+
+<p>It’s important to note that only a fraction of the lakes in the United States have been genetically surveyed, with a greater concentration of surveying in the Midwest, due to funding and collaborative projects. As a result, certain strains or taxa may be present in more lakes than shown on this map. If your lake isn’t represented, and you’re curious about the watermilfoil strains present there, please don’t hesitate to contact us or visit the <a href = 'https://www.montana.edu/thumlab/'> Thum Lab’s website </a> for more information!</p>
+
+<p>Lastly, if you want a refresher of any of this information, please click on the <b>Map Instructions</b> button to reopen this pop-up.</p>
+
+"))
+})
+
+
+#MAKING FILTER INFO BOXES
+observeEvent(list(session$initialized, input$info_button),{
+  show_alert
+})
+
+
+
+#THIS IS THE BUTTON FOR HERBICIDE RESPONSE
+observeEvent(input$responseClicked, {
+  
+  strain_herb <- stringr::str_split_fixed(input$responseClicked, "-", 2)
+  
+  which_row <- which(herb_table$Microsat_ID == strain_herb[1])
+  
+  if (strain_herb[2] == "Fluridone") {
+    which_col <- "Fluridone_response"
+    
+  } else if (strain_herb[2] == "Procellacor") {
+    which_col <- "Florpyrauxifen_benzyl_response"
+    
+  } else if (strain_herb[2] == "2,4-D") {
+    which_col <- "X2_4D_response"
+    
+  } else {
+    stop("Unknown herbicide: ", strain_herb[2])
+  }
+  
+  output$general_info <- renderText({
+    herb_table[which_row, which_col]
+  })
+})
+
+#THIS IS TEXT THAT FILLS THE INFO DIV
+
+
+observeEvent(list(session$initialized),{
+
+output$general_info = renderText(({
+  HTML("<h2 id = 'info_header'>Strain Nomenclature</h2>
+         <p><span id=arrowtag>&#x2794 </span>The first letter in the strain ID refers to the taxon, E = Eurasian watermilfoil (<i>Myriophyllum spicatum</i>), N = northern watermilfoil (<i>M. sibiricum</i>), and H = hybrid watermilfoil (<i>M. spicatum × M. sibiricum</i>).</p>
+         <p><span id=arrowtag>&#x2794 </span>In the strain ID, ‘MYR’ or ‘MISGP’ is an internal reference that indicates the original dataset the individual belongs to.</p>
+         <p><span id=arrowtag>&#x2794 </span>Lastly, the number at the end of the ID indicates the sample number of the first observation of the strain.</p>
+         <p><span id=arrowtag>&#x2794 </span>For example, the identification code for E_MISGP_734 tells us it is a Eurasian watermilfoil strain, sample 734 from the MISGP database.</p>
+         <p><span id=arrowtag>&#x2794 </span>We do not actively track northern watermilfoil strains due to the presence of numerous strains, most of which are not a priority for management because they are a native to the United States. As a result, northern watermilfoil strains will either be labeled using the above nomenclature, or simply as NORTHERN.</p>")
+}))})
+
+
+#LIST OF LAKES BUTTON
+observeEvent(input$lake_button, {
+  lake_list = sort(unique(Our_reactives$current_df$Lake_WBI))
+  lake_list2 = paste(lake_list, collapse = ",<br>")
+  show_alert(title = "Selected list of lakes", closeOnClickOutside = FALSE, showCloseButton = TRUE, html = TRUE,
+             text = HTML("<h2>Lake Name (Waterbody ID)</h2>
+                         <p>Based on the filters you have selected (State, County and or Strain), here is a list of lakes we have strain data for. If you do not see the lake you are looking for, you can assume that at this time, we have no strain data for that lake. If you want to see more strain data for more lakes, we encourage you to consider incorporating genetic testing and monitoring into your Eurasian watermilfoil management practices.</p>", lake_list2))
+})
+
+
+
+#CLEAR FILTERS BUTTON
+observeEvent(input$reset_button,{
+  updateSelectInput(session, "Filter_States", selected = "All")
+  updateSelectInput(session, "Filter_Counties", selected = "All")
+  updateSelectInput(session, "Filter_Lakes", selected = "All")
+  updateSelectInput(session, "Filter_Strain", selected = "All")
+  updateSelectInput(session, "Filter_Taxon", selected = "All")
+  updateSelectInput(session, "Filter_SubBasins", selected = "All")
+})
+
+
+#PUTTING LOGOS IN
+output$combined_logos = renderImage({
+  list(src = "www/combined logos.png", height = "81px")
+}, deleteFile = F)
+
+
+output$milfoilimg1 = renderImage({
+  list(src = "www/milf_art.png")
+}, deleteFile = F)
+
+output$milfoilimg2 = renderImage({
+  list(src = "www/milf_art.png")
+}, deleteFile = F)
+
+output$milfoilimg3 = renderImage({
+  list(src = "www/milf_art.png")
+}, deleteFile = F)
+
+output$milfoilimg4 = renderImage({
+  list(src = "www/milf_art.png")
+}, deleteFile = F)
+
+
+#THE TEXT THAT FILLS THE FOOTER DIV
+output$suggestions = renderText(({
+  HTML("<p>Recommended citation: Wolfe, A.L and R.A. Thum. 2023. MilfoilMapper. Updated date. Access date. <a href = >https://thumlab-msu-watermilfoilapp.shinyapps.io/milfoil_app</a><br> Questions, suggestions or bugs? Please email them to Ashley at <a href = 'mailto:ashley.wolfe3@montana.edu'>ashley.wolfe3@montana.edu</a><br>The data on this website was last updated 4/7/2026
+                 <br>Version 1 published 9/20/2023</p>")
+}))
+
+
+
+}) #END OF SERVER OBJECT, DON'T MOVE!!!!!!!
+
